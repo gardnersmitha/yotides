@@ -42,7 +42,7 @@ if($yo_user){
 	$ch = curl_init();
 	curl_setopt($ch,CURLOPT_URL,"http://api.justyo.co/yo/");
 	curl_setopt($ch, CURLOPT_POST, 1);
-	curl_setopt($ch, CURLOPT_POSTFIELDS,"api_token=0708279c-4812-57dd-a9d5-8534140ea072&username=".$yo_user."&link=http://austingardnersmith.me/projects/tides");
+	curl_setopt($ch, CURLOPT_POSTFIELDS,"api_token=0708279c-4812-57dd-a9d5-8534140ea072&username=".$yo_user."&link=http://austingardnersmith.me/projects/yotides/");
 	curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
 	$response = curl_exec($ch);
 	curl_close($ch);
