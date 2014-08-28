@@ -9,8 +9,8 @@ curl_close($ch);
 $obj_response = json_decode($json_response);
 $tide = $obj_response->tide->tideSummary;
 
-$low_tides = [];
-$high_tides = [];
+$low_tides = array();
+$high_tides = array();
 
 foreach ($tide as $tide_summary => $data) {
 	if($data->data->type == "Low Tide"){
