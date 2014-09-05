@@ -1,0 +1,27 @@
+body{
+	padding:0px;
+	margin:0px;
+}
+
+.page-wrap{
+	width: 100%;
+	height: 100%;
+	background:transparent url('img/background.jpg') no-repeat top center scroll;
+}
+
+.container{
+	width: 480px;
+}
+
+.panel{
+	border-radius: 0px;
+	border: none;
+	box-shadow: none;
+	background: rgba(253,253,253,0.6);
+}
+
+.panel-left,
+.panel-right{
+	height:80px;
+	float: left;
+}

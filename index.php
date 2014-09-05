@@ -1,39 +1,76 @@
 <?php
 
-$ch = curl_init();
-curl_setopt($ch,CURLOPT_URL,"http://api.wunderground.com/api/660d12c19c406d2c/geolookup/tide/q/02543.json");
-curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
-$json_response = curl_exec($ch);
-curl_close($ch);
+//Kick off our function
+//getTides();
 
-$obj_response = json_decode($json_response);
-$tide = $obj_response->tide->tideSummary;
+function getTides(){
+	$ch = curl_init();
+	curl_setopt($ch,CURLOPT_URL,"http://api.wunderground.com/api/660d12c19c406d2c/geolookup/tide/q/02543.json");
+	curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
+	$json_response = curl_exec($ch);
+	curl_close($ch);
 
-$low_tides = array();
-$high_tides = array();
+	$obj_response = json_decode($json_response);
+	$tide_obj = $obj_response->tide->tideSummary;
 
-foreach ($tide as $tide_summary => $data) {
-	if($data->data->type == "Low Tide"){
-		$tide_time = $data->date->pretty;
-		$tide_type = $data->data->type;
-		$tide_info = $tide_type." : ".$tide_time."<br/>";
-		array_push($low_tides,$tide_info);
-	}elseif($data->data->type == "High Tide"){
-		$tide_time = $data->date->pretty;
-		$tide_type = $data->data->type;
-		$tide_info = $tide_type." : ".$tide_time."<br/>";
-		array_push($high_tides,$tide_info);
+	$tides = array();
+	//$high_tides = array();
+
+	foreach ($tide_obj as $tide_summary => $data) {
+		if($data->data->type == "Low Tide"){
+			$tide_info['type'] = $data->data->type;
+			$tide_info['time'] = $data->date->pretty;
+			array_push($tides,$tide_info);
+		}elseif($data->data->type == "High Tide"){
+			$tide_info['type'] = $data->data->type;
+			$tide_info['time'] = $data->date->pretty;
+			array_push($tides,$tide_info);
+		}
+	};
+
+	buildTides($tides);
+}
+
+function getMarineForecast(){
+	$ch = curl_init();
+	curl_setopt($ch,CURLOPT_URL,"http://api.worldweatheronline.com/free/v1/marine.ashx?q=41.5143783,-70.7101877&key=62ee78dba0250c943f1a5c37402d9b4c0f7868bd&format=json");
+	curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
+	$json_response = curl_exec($ch);
+	curl_close($ch);
+
+	$obj_response = json_decode($json_response);
+	$weather_obj = $obj_response->data->weather;
+
+	foreach ($weather_obj as $field => $data) {
+		if($data->hourly){
+			print_r($data->hourly);
+			echo 'tits';
+		}
+	};
+}
+
+
+
+
+
+function buildTides($tides){
+	//print_r($tides);
+
+	$html = '';
+	for ($i=0; $i < 4; $i++) { 
+		$html .=
+			'<div class="panel panel-default">
+				<div class="panel-body">
+					<div class="panel-left">'.$tides[$i]["type"].'</div>
+					<div class="panel-right">'.$tides[$i]["time"].'</div>
+				</div>
+			</div>'
+		;
 	}
-};
 
+	echo $html;
+}
 
-echo '<h3>The next two low tides are:</h3>';
-print($low_tides[0]);
-print($low_tides[1]);
-
-echo '<h3>The next two high tides are:</h3>';
-print($high_tides[0]);
-print($high_tides[1]);
 
 $yo_user = $_GET['username'];
 
@@ -49,3 +86,32 @@ if($yo_user){
 }
 
 ?>
+<!DOCTYPE html>
+<html lang="">
+	<head>
+		<title>YOTIDES | NORTHWESTGUTTER</title>
+		<meta charset="UTF-8">
+		<meta name=description content="">
+		<meta name=viewport content="width=device-width, initial-scale=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<!-- Bootstrap CSS -->
+		<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" media="screen">
+		<link rel="stylesheet" type="text/css" href="style.css">
+	</head>
+	<body>
+		<div class="page-wrap">
+			<h1 class="text-center">YOTIDES</h1>
+			<div class="container">
+				<?php 
+					//getTides(); 
+					getMarineForecast();
+				?>
+			</div>
+		</div>
+
+		<!-- jQuery -->
+		<script src="//code.jquery.com/jquery.js"></script>
+		<!-- Bootstrap JavaScript -->
+		<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+	</body>
+</html>
