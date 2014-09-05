@@ -6,22 +6,57 @@ body{
 .page-wrap{
 	width: 100%;
 	height: 100%;
-	background:transparent url('img/background.jpg') no-repeat top center scroll;
+	min-width: 480px;
+	xbackground:transparent url('img/background.jpg') no-repeat top center scroll;
+	text-transform: uppercase;
 }
 
-.container{
-	width: 480px;
+header.section-header{
+	background:#f4f4f4;
+	width:100%;
+	font-size:100px;
+	padding:20px;
 }
 
-.panel{
-	border-radius: 0px;
-	border: none;
-	box-shadow: none;
-	background: rgba(253,253,253,0.6);
+.tile{
+	float:left;
+	xheight:100px;
+	overflow: hidden;
 }
 
-.panel-left,
-.panel-right{
-	height:80px;
-	float: left;
+.tile-header{
+	color:#fff;
+	font-size: 18px;
+	width:auto;
+	margin:0 0 10px 0;
+	padding:5px;
+	text-transform: uppercase;
+	border-bottom: 1px solid #fff;
 }
+
+.tile-value{
+	clear:both;
+	font-size: 48px;
+	font-weight: bold;
+	padding:10px;
+	text-align: center;
+}
+
+.tile-caption{
+	font-size: 10px;
+}
+
+	/*Tide Tiles*/
+	.tile.tide{
+		width: 25%;
+	}
+
+	.tile.tide:nth-child(odd){
+		background:blue;
+	}
+
+	.tile.tide:nth-child(even){
+		background:red;
+	}
+
+

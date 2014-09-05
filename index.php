@@ -19,11 +19,13 @@ function getTides(){
 	foreach ($tide_obj as $tide_summary => $data) {
 		if($data->data->type == "Low Tide"){
 			$tide_info['type'] = $data->data->type;
-			$tide_info['time'] = $data->date->pretty;
+			$tide_info['time'] = $data->date->hour.':'.$data->date->min;
+			$tide_info['date'] = $data->date->mon.'/'.$data->date->mday;
 			array_push($tides,$tide_info);
 		}elseif($data->data->type == "High Tide"){
 			$tide_info['type'] = $data->data->type;
-			$tide_info['time'] = $data->date->pretty;
+			$tide_info['time'] = $data->date->hour.':'.$data->date->min;
+			$tide_info['date'] = $data->date->mon.'/'.$data->date->mday;
 			array_push($tides,$tide_info);
 		}
 	};
@@ -43,30 +45,54 @@ function getMarineForecast(){
 
 	foreach ($weather_obj as $field => $data) {
 		if($data->hourly){
-			print_r($data->hourly);
-			echo 'tits';
+			$forecast_obj = $data->hourly[1];
+			buildForecast($forecast_obj);
 		}
 	};
 }
 
+function buildForecast($forecast_obj){
+	$html1 = '
+	<section class="forecast">
+		<header class="section-header">Marine Forecast</header>
+		<div class="section-tiles">
+	';	
 
+
+	$html2 = '
+		</div>
+	</section>
+	';
+
+	echo $html1;
+	print_r($forecast_obj);
+	echo $html2;
+}
 
 
 
 function buildTides($tides){
 	//print_r($tides);
 
-	$html = '';
+	$html = '
+	<section class="tides">
+		<header class="section-header">Tides</header>
+		<div class="section-tiles">
+	';
 	for ($i=0; $i < 4; $i++) { 
-		$html .=
-			'<div class="panel panel-default">
-				<div class="panel-body">
-					<div class="panel-left">'.$tides[$i]["type"].'</div>
-					<div class="panel-right">'.$tides[$i]["time"].'</div>
-				</div>
-			</div>'
+		$html .= '
+			<div class="tile tide">
+				<span class="tile-header">'.$tides[$i]["type"].'</span>
+				<p class="tile-value">'.$tides[$i]["time"].'</p>
+				<p class="tile-caption">'.$tides[$i]["date"].'</p>
+			</div>';
 		;
 	}
+
+	$html .= '
+		</div>
+	</section>
+	';
 
 	echo $html;
 }
@@ -100,13 +126,15 @@ if($yo_user){
 	</head>
 	<body>
 		<div class="page-wrap">
-			<h1 class="text-center">YOTIDES</h1>
-			<div class="container">
-				<?php 
-					//getTides(); 
-					getMarineForecast();
-				?>
-			</div>
+			<header>
+				<h1>YoTides</h1>
+				<h3>A simple tide and weather service using the Yo API.</h2>
+			</header>
+			<?php 
+				getTides(); 
+				getMarineForecast();
+			?>
+			<footer></footer>
 		</div>
 
 		<!-- jQuery -->
