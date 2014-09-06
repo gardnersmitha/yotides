@@ -3,6 +3,8 @@
 //Kick off our function
 //getTides();
 
+date_default_timezone_set('America/New_York');
+
 function getTides(){
 	$ch = curl_init();
 	curl_setopt($ch,CURLOPT_URL,"http://api.wunderground.com/api/660d12c19c406d2c/geolookup/tide/q/02543.json");
@@ -42,31 +44,76 @@ function getMarineForecast(){
 
 	$obj_response = json_decode($json_response);
 	$weather_obj = $obj_response->data->weather;
+	
+	$military_hour = date('H').'00';
 
 	foreach ($weather_obj as $field => $data) {
 		if($data->hourly){
-			$forecast_obj = $data->hourly[1];
-			buildForecast($forecast_obj);
+			foreach($data->hourly as $forecast){
+				if($forecast->time > $military_hour){
+					buildForecast($forecast);
+					exit;
+				}
+			}
 		}
 	};
 }
 
 function buildForecast($forecast_obj){
-	$html1 = '
+
+	//print_r($forecast_obj);
+
+	//Do some conversion on the values that come back in meters
+	$swell = ($forecast_obj->swellHeight_m)*(3.2);
+	$wave = ($forecast_obj->sigHeight_m)*(3.2);
+
+	//Build our HTML
+	$html= '
 	<section class="forecast">
-		<header class="section-header">Marine Forecast</header>
-		<div class="section-tiles">
-	';	
+		<header class="section-header row">Marine Forecast</header>
+		<div class="section-tiles row">
 
+			<div class="tile tide col-lg-3 col-md-3 col-sm-3 col-xs-12">
+				<span class="tile-header">Humidity</span>
+				<p class="tile-value">'.$forecast_obj->humidity.'</p>
+				<p class="tile-caption">PERCENT</p>
+			</div>	
 
-	$html2 = '
+			<div class="tile tide col-lg-3 col-md-3 col-sm-3 col-xs-12">
+				<span class="tile-header">Temp</span>
+				<p class="tile-value">'.$forecast_obj->tempF.'</p>
+				<p class="tile-caption">˚F</p>
+			</div>
+
+			<div class="tile tide col-lg-3 col-md-3 col-sm-3 col-xs-12">
+				<span class="tile-header">Wind</span>
+				<p class="tile-value">'.$forecast_obj->winddir16Point.$forecast_obj->windspeedMiles.'</p>
+				<p class="tile-caption">MPH</p>
+			</div>
+
+			<div class="tile tide col-lg-3 col-md-3 col-sm-3 col-xs-12">
+				<span class="tile-header">Swell</span>
+				<p class="tile-value">'.$swell.'</p>
+				<p class="tile-caption">FEET</p>
+			</div>
+
+			<div class="tile tide col-lg-3 col-md-3 col-sm-3 col-xs-12">
+				<span class="tile-header">Wave</span>
+				<p class="tile-value">'.$wave.'</p>
+				<p class="tile-caption">FEET</p>
+			</div>	
+
+			<div class="tile tide col-lg-3 col-md-3 col-sm-3 col-xs-12">
+				<span class="tile-header">Pressure</span>
+				<p class="tile-value">'.$forecast_obj->pressure.'</p>
+				<p class="tile-caption">˚F</p>
+			</div>
+
 		</div>
 	</section>
 	';
 
-	echo $html1;
-	print_r($forecast_obj);
-	echo $html2;
+	echo $html;
 }
 
 
@@ -76,12 +123,12 @@ function buildTides($tides){
 
 	$html = '
 	<section class="tides">
-		<header class="section-header">Tides</header>
-		<div class="section-tiles">
+		<header class="section-header row">Tides</header>
+		<div class="section-tiles row">
 	';
 	for ($i=0; $i < 4; $i++) { 
 		$html .= '
-			<div class="tile tide">
+			<div class="tile tide col-lg-3 col-md-3 col-sm-3 col-xs-12">
 				<span class="tile-header">'.$tides[$i]["type"].'</span>
 				<p class="tile-value">'.$tides[$i]["time"].'</p>
 				<p class="tile-caption">'.$tides[$i]["date"].'</p>
@@ -125,8 +172,8 @@ if($yo_user){
 		<link rel="stylesheet" type="text/css" href="style.css">
 	</head>
 	<body>
-		<div class="page-wrap">
-			<header>
+		<div class="page-wrap container-fluid">
+			<header class="row">
 				<h1>YoTides</h1>
 				<h3>A simple tide and weather service using the Yo API.</h2>
 			</header>
