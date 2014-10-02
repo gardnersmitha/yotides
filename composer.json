@@ -1,0 +1,16 @@
+{
+	"repositories": [
+	    {
+	      "type": "vcs",
+	      "url": "https://github.com/Nanigans/curl"
+	    },
+	    {
+	      "type": "vcs",
+	      "url": "https://github.com/mikecao/flight"
+	    }
+	  ],
+	"require":{
+		"Nanigans/curl": "1.0.*",
+		"mikecao/flight": "*"
+	}
+}
