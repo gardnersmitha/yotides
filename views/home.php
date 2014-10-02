@@ -14,4 +14,33 @@
 	<li>error handling</li>
 </ul>
 
+<section class="signup-form row">
+	<form action="/user/create" method="POST" role="form" class="col-lg-6">
+		<legend>Signup for YoTides</legend>
+	
+		<div class="form-group">
+			<label for="yo-username">Yo Username</label>
+			<input type="text" class="form-control" id="yo-username" name="yo_username" placeholder="Enter your YO username" value="">
+		</div>
+		<div class="form-group">
+			<label for="zip-code">Zip Code for Forecast</label>
+			<select name="zip_code" id="input" class="form-control" required="required">
+				<option value="02540">Falmouth</option>
+				<option value="02543">Woods Hole</option>
+				<option value="02532">Bourne</option>
+				<option value="02568">Vineyard Haven</option>
+				<option value="02554">Nantucket</option>
+			</select>
+		</div>
+		<!--
+		<div class="form-group">
+			<label for="zip-code">Zip Code for Forecast</label>
+			<input type="text" class="form-control" id="zip-code" name="zip_code" placeholder="Something like 02540">
+		</div>
+		-->
+
+		<button type="submit" class="btn btn-primary">Submit</button>
+	</form>	
+</section>
+
 <?php include('footer.php'); ?>

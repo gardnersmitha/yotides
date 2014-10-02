@@ -27,7 +27,7 @@
 </section>
 
 <section class="forecast">
-	<header class="section-header row">Marine Forecast</header>
+	<header class="section-header row sticky">Marine Forecast</header>
 	<div class="section-tiles row">
 
 		<div class="tile tide col-lg-3 col-md-3 col-sm-3 col-xs-12">
