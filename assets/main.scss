@@ -1,0 +1,72 @@
+@import 'vendor/sass-bootstrap/lib/bootstrap';
+
+body{
+	padding:0px;
+	margin:0px;
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6{
+	text-align: center;
+}
+
+.page-wrap{
+	height: 100%;
+	xtext-transform: uppercase;
+}
+
+img.logo, .logo{
+	width:64px;
+	height:64px;
+}
+
+.navbar, .navbar-button, .navbar-brand{
+	background: #fff;
+	color: $brand-primary;
+}
+
+header.section-header{
+	padding:0 10px;
+	background:#f4f4f4;
+	font-size:48px;
+}
+
+.tile{
+	color:#666;
+	overflow: hidden;
+	text-align: center;
+	border-top: 1px solid $brand-primary;
+	padding:10px 0 0 0;
+}
+
+.tile-header{
+	color:$brand-primary;
+	font-size: 18px;
+	margin:0 0 10px 0;
+	text-transform: uppercase;
+}
+
+.tile-value{
+	clear:both;
+	font-size: 48px;
+	color:$brand-primary;
+}
+
+.tile-caption{
+	text-transform: uppercase;
+	font-size: 18px;
+	color:$gray-light;
+}
+
+	/*Tide Tiles*/
+	.tile.tide{
+	}
+
+	.tile.tide:nth-child(odd){
+		background:white;
+	}
+
+	.tile.tide:nth-child(even){
+		background:aliceblue;
+	}
+
+

@@ -1,0 +1,30 @@
+{
+  "name": "yotides",
+  "version": "0.0.0",
+  "homepage": "https://github.com/gardnersmitha/yotides",
+  "authors": [
+    "gardnersmitha <austingardnersmith@gmail.com>"
+  ],
+  "dependencies": {
+    "sass-bootstrap": "~3.0.0",
+    "modernizr": "~2.6.2",
+    "jquery": "~1.10.2",
+    "weather-icons":"1.*"
+  },
+  "description": "A simple tide and weather service using the Yo API",
+  "main": "index.php",
+  "keywords": [
+    "tides",
+    "weather"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "vendor"
+  ]
+}

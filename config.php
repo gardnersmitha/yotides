@@ -15,8 +15,7 @@ needs to have.
 define ('WUNDERGROUND_KEY','660d12c19c406d2c');
 define ('GOOGLE_MAPS_KEY','AIzaSyARNsr1Xa0NE0pbvWUOKA_tyQnlEKfMlCg');
 define ('WORLDWEATHERONLINE_KEY','62ee78dba0250c943f1a5c37402d9b4c0f7868bd');
-
-
+define ('BASE_URL','http://localhost:8888/yotides');
 
 //Time Zone
 date_default_timezone_set('America/New_York');
