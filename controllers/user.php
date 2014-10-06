@@ -9,6 +9,7 @@
 **/
 
 //Requires
+//require('config.php');
 use Shuber\LibCurl as Curl;
 
 
@@ -17,36 +18,87 @@ use Shuber\LibCurl as Curl;
 * 
 */
 
+/**
+* 
+*/
+class User
+{
+	public $id;
+	public $username;
+	public $zip_code;
+	public $visit_count;
 
-// function checkUser($yo_username){
-// 	global $db_connect;
-// 	$query = "SELECT * FROM `users` WHERE `yo_username` = '".$yo_username."' LIMIT 1";
-// 	$result = mysqli_query($db_connect, $query) or die($db_connect->error.__LINE__);
-	
-// 	if($result->num_rows > 0){
-// 		$user = $result->fetch_object();
-// 		print_r($user);
-// 		return true;
-// 	}else{
-// 		//send the user to the homepage to signup (this will only happen on first YO to the service)
-// 		return false;
-// 	}
-// }
+	public static function check($user){
+		global $db;
+		$db->where('username', $user->username);
+		$result = $db->getOne('users');
+		if(!$result){
+			Flight::redirect('/');
+		}
+		$user->id = $result['id'];
+		$user->zip_code = $result['zip_code'];
+		$user->visit_count = $result['visit_count'];
+		$user->touch();
+		$user->sendForecast();
+	}
 
-// function getZip($user){
-// 	// global $db_connect;
-// 	// $query = "SELECT * FROM `users` WHERE `yo_username` = '".$yo_username."' LIMIT 1";
-// 	// $result = mysqli_query($db_connect, $query) or die($db_connect->error.__LINE__);
-// 	//$zip_code = $user->fetch_array(MYSQLI_ASSOC)['zip_code'];
-// 	return $zip_code;
-// }
 
-// function addUser($yo_username, $zip_code){
-// 	global $db_connect;
-// 	$date = date('Y-m-d H:m:s');
-// 	$query = "INSERT INTO `users` VALUES ('','".$yo_username."','".$zip_code."','".$date."','".$date."','1')";
-// 	$result = mysqli_query($db_connect, $query) or die($db_connect->error.__LINE__);
-// }
+	public static function create($data){
+
+		$data = Array (
+		    	'username' => $data->username,
+		    	'zip_code' => $data->zip_code,
+		    	'created_date' => date("Y-m-d H:i:s"),
+		    	'last_visit' => date("Y-m-d H:i:s")
+		    );
+		global $db;
+		$id = $db->insert('users', $data);
+		if(!$id){
+			echo 'Something wrong';
+		}
+		echo 'user '.$id.' was created.';
+	}
+
+	public function touch(){
+
+		$data = Array(
+			'last_visit' => date("Y-m-d H:i:s"),
+			'visit_count' => $this->visit_count+1
+		);
+
+		global $db;
+		$db->where('id', $this->id);
+		$result = $db->update('users', $data);
+		if(!$result){
+			echo 'Something wrong';
+		}
+	}
+
+	public function sendForecast(){
+		$link = BASE_URL.'/forecast/'.$this->zip_code;
+		$this->yo($link);
+	}
+
+	public function yo($link){
+
+		//Setup request
+		$url = 'https://api.justyo.co/yo/';
+		$data = Array(
+			'api_token'=>YO_KEY,
+			'username' => $this->username,
+			'link' => $link
+		);
+
+		//Execute request
+		$curl = new Curl\Curl();
+		$response = $curl->post($url,$data);
+
+		//Check for a response
+		if(!$response){
+			log($curl->error());
+		}
+	}
+}
 
 
 

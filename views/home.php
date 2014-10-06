@@ -15,12 +15,12 @@
 </ul>
 
 <section class="signup-form row">
-	<form action="/user/create" method="POST" role="form" class="col-lg-6">
+	<form action="<?php echo BASE_URL;?>/user/create" method="POST" role="form" class="col-lg-6">
 		<legend>Signup for YoTides</legend>
 	
 		<div class="form-group">
-			<label for="yo-username">Yo Username</label>
-			<input type="text" class="form-control" id="yo-username" name="yo_username" placeholder="Enter your YO username" value="">
+			<label for="username">Yo Username</label>
+			<input type="text" class="form-control" id="username" name="username" placeholder="Enter your YO username" value="">
 		</div>
 		<div class="form-group">
 			<label for="zip-code">Zip Code for Forecast</label>

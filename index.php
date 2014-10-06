@@ -10,7 +10,17 @@ Flight::route('/', function(){
 
 Flight::route('/forecast/@zip_code:[0-9]{5}', array('Forecast','show'));
 
-Flight::route('/user/create', array('User','create'));
+Flight::route('/callback', function(){
+	$user = new User;
+	$user->username = Flight::request()->query['username'];
+	$user->check($user);
+});
+
+Flight::route('POST /user/create', function(){
+	$data = Flight::request()->data;
+	$user = new User;
+	$user->create($data);
+});
 
 Flight::start();
 
