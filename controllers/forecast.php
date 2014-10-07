@@ -171,6 +171,7 @@ class Forecast
 		
 
 		$curl = new Curl\Curl;
+		$curl->follow_redirects = false;
 		$response = $curl->get($url);
 
 		if(!$response){echo 'shitballs';}
