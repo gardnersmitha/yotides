@@ -91,6 +91,7 @@ class User
 
 		//Execute request
 		$curl = new Curl\Curl();
+		$curl->follow_redirects = false;
 		$response = $curl->post($url,$data);
 
 		//Check for a response

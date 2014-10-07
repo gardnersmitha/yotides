@@ -98,6 +98,7 @@ class Forecast
 
 		//Execute request
 		$curl = new Curl\Curl();
+		$curl->follow_redirects = false;
 		$response = $curl->get($url);
 
 		//Check for a response
@@ -144,6 +145,7 @@ class Forecast
 
 		//Execute request
 		$curl = new Curl\Curl();
+		$curl->follow_redirects = false;
 		$response = $curl->get($url);
 
 		//Format and parse the response
