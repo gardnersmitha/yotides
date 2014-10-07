@@ -69,7 +69,7 @@ class Forecast
 	public static function show($zip_code){
 
 		//Initialize the class
-		$forecast = Self::init();
+		$forecast = new Forecast;
 
 		//Set zip_code property
 		$forecast->zip_code = $zip_code;
