@@ -26,7 +26,4 @@ date_default_timezone_set('America/New_York');
 //Local Database
 $db = new MysqliDb ('localhost', 'root', 'root', 'yotides');
 
-//Production Database
-//$db = new MysqliDb ('internal-db.s113309.gridserver.com','db113309_yotides', 'kfd{A8yzF9i', 'db113309_yotides');
-
 ?>
